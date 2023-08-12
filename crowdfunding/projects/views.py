@@ -57,9 +57,6 @@ class ProjectDetail(APIView):
         if serializer.is_valid():
             serializer.save()
 
-class ProjectList (APIView):
-        permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-
 class PledgeList(APIView):
 
     def get(self, request):
