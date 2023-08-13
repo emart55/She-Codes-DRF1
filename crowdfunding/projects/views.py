@@ -91,4 +91,3 @@ class PledgeList(APIView):
 #         serializer = PledgeSerializer(pledge)
 #         return Response(serializer.data)
     
-    # You can add methods like 'put' and 'delete' here for updating and deleting pledges if needed.
