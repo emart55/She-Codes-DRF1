@@ -17,7 +17,7 @@ class ProjectList(APIView):
     def post(self, request):
         serializer = ProjectSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save(owner=request.user)
+            serializer.save(owner=request.user, is_deleted=False, is_open=True)
             return Response(
                 serializer.data,
                 status=status.HTTP_201_CREATED
@@ -36,6 +36,7 @@ class ProjectDetail(APIView):
 
     def get_object(self, pk):
         try:
+            # projects = Project.objects.all().filter(is_deleted=False)
             project = Project.objects.get(pk=pk)
             self.check_object_permissions(self.request, project)
             return project
@@ -56,18 +57,29 @@ class ProjectDetail(APIView):
         )
         if serializer.is_valid():
             serializer.save()
+            return Response(
+                serializer.data,
+                status=status.HTTP_201_CREATED
+            )
+        return Response(
+            serializer.errors,
+            status=status.HTTP_400_BAD_REQUEST
+        )
 
 class PledgeList(APIView):
 
     def get(self, request):
-        pledges = Pledge.objects.all()
-        serializer = PledgeSerializer(pledges, many=True)
+        pledges = Pledge.objects.all().filter(is_deleted=False)
+        serializer = PledgeSerializer(pledges,many=True)
         return Response(serializer.data)
     
     def post(self, request):
+        pledge = request.data
+        project = project.objects.get(pk=pledge['project'])
         serializer = PledgeSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save(supporter=request.user)
+        if project.is_open == True:
+            if serializer.is_valid():
+                serializer.save(supporter=request.user,is_deleted=False)
             return Response(
                 serializer.data,
                 status=status.HTTP_201_CREATED
