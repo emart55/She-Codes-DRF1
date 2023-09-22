@@ -15,6 +15,10 @@ class Project(models.Model):
     )
     is_deleted = models.BooleanField(default=False)
 
+    def __str__(self):
+        return self.title  # Display the project title as the representation
+
+
 class Pledge(models.Model):
     amount = models.IntegerField()
     comment = models.CharField(max_length=200, null=True)
@@ -27,7 +31,8 @@ class Pledge(models.Model):
     )
     supporter = models.ForeignKey(
         get_user_model(),
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
+        null=True,
         related_name='pledges'
     )
     is_deleted = models.BooleanField(default=False)

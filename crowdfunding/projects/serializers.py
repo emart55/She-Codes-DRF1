@@ -1,9 +1,13 @@
 from rest_framework import serializers
 from django.apps import apps
+from django.contrib.auth import get_user_model
 
 
 class PledgeSerializer(serializers.ModelSerializer):
-    supporter = serializers.ReadOnlyField(source="owner.id")
+    supporter = serializers.PrimaryKeyRelatedField(
+        queryset=get_user_model().objects.all(),
+        required=False  # Allow supporter to be null
+    )
 
     class Meta:
         model = apps.get_model("projects.Pledge")

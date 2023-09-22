@@ -133,6 +133,8 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
+DEBUG = True
+
 USE_TZ = True
 
 

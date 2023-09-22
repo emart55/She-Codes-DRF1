@@ -13,7 +13,9 @@ class ProjectAdmin(admin.ModelAdmin):
 
 @admin.register(Pledge)
 class PledgeAdmin(admin.ModelAdmin):
-    list_display = ('amount', 'comment', 'anonymous', 'project', 'supporter')
-    list_filter = ('anonymous', 'project', 'supporter')
+    list_display = ('amount', 'comment', 'anonymous', 'project')
+    list_filter = ('anonymous', 'project')
     search_fields = ('comment',)
+
+    #put back in suppoert into list_filter and list display
 
